@@ -1,0 +1,64 @@
+<div class="operation">
+    <div class="operation-btns">
+        <button (click)="openFilterBox() " class="btn btn-primary px-4 py-2 ml-3">
+            <i class="bi bi-funnel-fill"></i>
+        </button>
+
+        <div *ngIf="isShowFilterBox" class="d-flex justify-content-center align-items-center mt-3">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <p style="font-size: 1.2rem; font-weight: 600;">Bộ lọc tìm kiếm</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="row">
+                            <div class="col-10">
+                                <nz-select nzMode="tags" nzPlaceHolder="Nhập nội dung tìm kiếm"
+                                    [(ngModel)]="keysFilter">
+                                    <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label"
+                                        [nzValue]="option.value"></nz-option>
+                                </nz-select>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-primary" (click)="onFilter()">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row align-items-center justify-content-between">
+                                    <div class="col-3">
+                                        <p><strong>Sắp xếp theo:</strong></p>
+                                    </div>
+                                    <div class="col-9">
+                                        <nz-select [(ngModel)]="sort" nzAllowClear nzPlaceHolder="Chưa sắp xếp"
+                                            nzShowSearch style="width: 200px;">
+                                            <nz-option-group nzLabel="Giá tiền">
+                                                <nz-option nzLabel="Giá tiền tăng dần"
+                                                    nzValue="-totalPirce"></nz-option>
+                                                <nz-option nzLabel="Giá tiền giảm dần" nzValue="totalPirce"></nz-option>
+                                            </nz-option-group>
+                                            <nz-option-group nzLabel="Trạng thái">
+                                                <nz-option nzLabel="Trạng thái từ A - Z" nzValue="-status"></nz-option>
+                                                <nz-option nzLabel="Trạng thái từ Z - A" nzValue="status"></nz-option>
+                                            </nz-option-group>
+                                            <nz-option-group nzLabel="Ngày đặt hàng">
+                                                <nz-option nzLabel="Ngày tăng dần" nzValue="-createdAt"></nz-option>
+                                                <nz-option nzLabel="Ngày giảm dần" nzValue="createdAt"></nz-option>
+                                            </nz-option-group>
+                                        </nz-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

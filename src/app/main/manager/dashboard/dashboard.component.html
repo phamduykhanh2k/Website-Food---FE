@@ -1,0 +1,311 @@
+<div class="mt-3">
+    <main class="main-content-wrapper">
+        <section class="container-fluid">
+            <!-- row -->
+            <div class="row mb-5">
+                <div class="col-md-12">
+                    <!-- card -->
+                    <div class="card bg-light border-0 rounded-4"
+                        style="background-image: url(../assets/img/dashboard_banner.jpg); background-repeat: no-repeat; background-size: cover; background-position: right">
+                        <div class="card-body p-lg-12">
+                            <h1 class="mb-0" style="font-size: 2rem;">Chào mừng đã trở lại</h1>
+                            <p>K-Fruit là cửa hàng trái cây nhập khẩu cao cấp tại Việt Nam</p>
+                            <a routerlink="/manager/products" routerLinkActive="active nav-item"
+                                ariaCurrentWhenActive="page" class="btn btn-success">Đến sản phẩm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- table -->
+            <div class="table-responsive-xl mb-6 mb-lg-0">
+                <div class="row flex-nowrap pb-3 pb-lg-0">
+                    <div class="col-lg-4 col-12 mb-6">
+                        <!-- card -->
+                        <div class="card h-100 card-lg">
+                            <!-- card body -->
+                            <div class="card-body p-6">
+                                <!-- heading -->
+                                <div class="d-flex justify-content-between align-items-center mb-6">
+                                    <div>
+                                        <h4 class="mb-0 fs-5">Thu nhập</h4>
+                                    </div>
+                                    <div
+                                        class="icon-shape icon-md bg-light-danger text-dark-danger rounded-circle bg-icon">
+                                        <i class="bi bi-currency-dollar fs-5"></i>
+                                    </div>
+                                </div>
+                                <!-- project number -->
+                                <div class="lh-1">
+                                    <h1 class="mb-2 fw-bold fs-2">{{statistic.totalMonthlyIncome | currency:
+                                        'VND'}}</h1>
+                                    <span>Thống kê theo tháng</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12 mb-6">
+                        <!-- card -->
+                        <div class="card h-100 card-lg">
+                            <!-- card body -->
+                            <div class="card-body p-6">
+                                <!-- heading -->
+                                <div class="d-flex justify-content-between align-items-center mb-6">
+                                    <div>
+                                        <h4 class="mb-0 fs-5">Đơn hàng</h4>
+                                    </div>
+                                    <div
+                                        class="icon-shape icon-md bg-light-warning text-dark-warning rounded-circle bg-icon">
+                                        <i class="bi bi-cart fs-5"></i>
+                                    </div>
+                                </div>
+                                <!-- project number -->
+                                <div class="lh-1">
+                                    <h1 class="mb-2 fw-bold fs-2">{{statistic.totalOrders}}</h1>
+                                    <span>
+                                        <span class="text-dark me-1">{{statistic.totalOrdersToday}}+</span>
+                                        đơn hàng mới hôm nay
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12 mb-6">
+                        <!-- card -->
+                        <div class="card h-100 card-lg">
+                            <!-- card body -->
+                            <div class="card-body p-6">
+                                <!-- heading -->
+                                <div class="d-flex justify-content-between align-items-center mb-6">
+                                    <div>
+                                        <h4 class="mb-0 fs-5">Khách hàng</h4>
+                                    </div>
+                                    <div class="icon-shape icon-md bg-light-info text-dark-info rounded-circle bg-icon">
+                                        <i class="bi bi-people fs-5"></i>
+                                    </div>
+                                </div>
+                                <!-- project number -->
+                                <div class="lh-1">
+                                    <h1 class="mb-2 fw-bold fs-2">{{statistic.totalCustomers}}</h1>
+                                    <span>
+                                        <span class="text-dark me-1">{{statistic.totalCustomersToday}}+</span>
+                                        khách hàng mới hôm nay
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+                <div class="col-xl-8 col-lg-6 col-md-12 col-12 mb-6">
+                    <!-- card -->
+                    <div class="card h-100 card-lg">
+                        <div class="card-body p-6">
+                            <!-- heading -->
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h3 class="mb-1 fs-5">Biểu đồ doanh thu</h3>
+                                    <small>Báo cáo theo năm</small>
+                                </div>
+                                <div>
+                                    <!-- select option -->
+                                    <select (change)="onChangeYear($event.target)" class="form-select p-1"
+                                        aria-label="Default select example">
+                                        <option>{{selectedYear}}</option>
+                                        <option>{{selectedYear - 1}}</option>
+                                        <option>{{selectedYear - 2}}</option>
+                                        <option>{{selectedYear - 3}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- chart -->
+                            <div class="div w-100">
+                                <canvas baseChart width="710" height="400" [type]="'line'" [data]="lineChartData"
+                                    [options]="lineChartOptions" [legend]="lineChartLegend">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-12 mb-6">
+                    <!-- card -->
+                    <div class="card h-100 card-lg">
+                        <!-- card body -->
+                        <div class="card-body p-6">
+                            <!-- heading -->
+                            <h3 class="mb-0 fs-5">Thống kê doanh số</h3>
+                            <div class="total-sales-chart">
+                                <canvas baseChart [type]="'pie'" [datasets]="pieChartDatasets" [labels]="pieChartLabels"
+                                    [options]="pieChartOptions" [plugins]="pieChartPlugins">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
+                    <!-- card -->
+                    <div class="card h-100 card-lg">
+                        <!-- card body -->
+                        <div class="card-body p-6">
+                            <h3 class="mb-0 fs-5">Tổng quan doanh thu</h3>
+                            <div class="mt-4">
+                                <!-- text -->
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="fs-6">Lợi nhuận trung bình</h5>
+                                        <strong>{{statistic.avgIncome| currency:
+                                            'VND'}}</strong>
+                                    </div>
+                                    <!-- main wrapper -->
+                                    <div>
+                                        <!-- progressbar -->
+                                        <nz-progress
+                                            nzPercent="{{statistic.avgProfit * 100 / (statistic.avgIncome + statistic.avgProfit + statistic.avgExpensive) | number: '1.0-1'}}"
+                                            nzStatus="normal" nzStrokeColor="#84cc16"></nz-progress>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <!-- text -->
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="fs-6">Thu nhập trung bình</h5>
+                                        <span>
+                                            <strong>{{statistic.avgProfit | currency:
+                                                'VND'}}</strong>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <!-- progressbar -->
+                                        <nz-progress
+                                            nzPercent="{{statistic.avgIncome * 100 / (statistic.avgIncome + statistic.avgProfit + statistic.avgExpensive) | number: '1.0-1'}}"
+                                            nzStatus="normal" nzStrokeColor="#2563eb"></nz-progress>
+                                    </div>
+                                </div>
+                                <div>
+                                    <!-- text -->
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="fs-6">Chi phí trung bình</h5>
+                                        <span>
+                                            <strong>{{statistic.avgExpensive | currency:
+                                                'VND'}}</strong>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <!-- progressbar -->
+                                        <nz-progress
+                                            nzPercent="{{statistic.avgExpensive * 100 / (statistic.avgIncome + statistic.avgProfit + statistic.avgExpensive) | number: '1.0-1'}}"
+                                            nzStatus="normal" nzStrokeColor="#ef4444"></nz-progress>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-5">
+                    <div class="position-relative h-100">
+                        <!-- card -->
+                        <div class="card card-lg mb-4">
+                            <!-- card body -->
+                            <div class="card-body py-8">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <!-- svg -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                            fill="currentColor" class="bi bi-bell text-warning" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                                        </svg>
+                                    </div>
+                                    <!-- text -->
+                                    <div class="ms-4">
+                                        <h5 class="mb-1">Thông báo mới hôm nay</h5>
+                                        <p class="mb-0">
+                                            You have
+                                            <a class="link-info" href="#!">1 thông báo mới</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                        <div class="card card-lg">
+                            <!-- card body -->
+                            <div class="card-body py-8">
+                                <div class="d-flex align-items-center">
+                                    <!-- svg -->
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                            fill="currentColor" class="bi bi-lightbulb text-success"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6zm6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1z" />
+                                        </svg>
+                                    </div>
+                                    <!-- text -->
+                                    <div class="ms-4">
+                                        <h5 class="mb-1">Mail đang cần xử lý hôm nay</h5>
+                                        <p class="mb-0"><a class="link-info" href="#!">Xem ngay</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- row -->
+            <div class="row mt-5">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-6">
+                    <div class="card h-100 card-lg">
+                        <!-- heading -->
+                        <div class="p-6">
+                            <h3 class="mb-0 fs-5 p-2">Đơn hàng gần đây</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- table -->
+                            <div class="table-responsive">
+                                <table class="table table-centered table-borderless text-nowrap table-hover">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th scope="col">Mã đơn hàng</th>
+                                            <th scope="col">Tên người nhận</th>
+                                            <th scope="col">Ngày đặt hàng</th>
+                                            <th scope="col">Giá tiền</th>
+                                            <th scope="col">Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let order of ordersRecent">
+                                            <td><a routerLink="/orders/{{order._id}}">{{order._id}}</a></td>
+                                            <td>{{order.name}}</td>
+                                            <td>{{order.createdAt | date: 'dd-MM-yyyy'}}</td>
+                                            <td>{{order.totalPrice | currency: 'VND'}}</td>
+                                            <td>
+                                                <span *ngIf="order.status === 'Chờ thanh toán'"
+                                                    class="badge badge-primary p-2" style="font-size: 0.8rem;">Chờ thanh
+                                                    toán</span>
+                                                <span *ngIf="order.status === 'Hoàn thành'"
+                                                    class="badge badge-success p-2" style="font-size: 0.8rem;">Hoàn
+                                                    thành</span>
+                                                <span *ngIf="order.status === 'Chờ xác nhận'"
+                                                    class="badge badge-warning p-2" style="font-size: 0.8rem;">Chờ xác
+                                                    nhận</span>
+                                                <span *ngIf="order.status === 'Hủy đơn hàng'"
+                                                    class="badge badge-danger p-2" style="font-size: 0.8rem;">Hủy đơn
+                                                    hàng</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>

@@ -1,0 +1,27 @@
+.fs-5 {
+    font-size: 1.4rem;
+}
+
+.fs-2 {
+    font-size: 2rem;
+}
+
+.bg-light-danger {
+    color: rgba(88, 19, 19, 1);
+    background-color: #f8d6d6;
+}
+
+.bg-light-warning {
+    background-color: #fff3cd;
+    color: rgba(102, 77, 33, 1);
+}
+
+.bg-light-info {
+    background-color: #cce1fe;
+    color: rgba(0, 43, 99, 1);
+}
+
+.bg-icon {
+    opacity: 1;
+    padding: 4px 10px;
+}

@@ -1,0 +1,12 @@
+.billing-address-form p {
+    margin: 0;
+}
+
+button.boxed-btn {
+    border-radius: 50px;
+    border: none;
+}
+
+.card-body .card-details label {
+    font-size: 1.2rem;
+}

@@ -1,0 +1,78 @@
+import { EventEmitter, Injectable, Injector } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { BehaviorSubject, Observable, Observer, Subject, switchMap } from 'rxjs';
+import { User } from '../models/user';
+import { ServerData } from '../models/serverData';
+import { CartService } from './cart.service';
+import { ObservableService } from './observable.service';
+import { FormGroup } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ToastrService } from 'ngx-toastr';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserAuthService {
+  usersEmit = new EventEmitter<User[]>();
+  userEmit = new EventEmitter<User>()
+  private schemaName = 'users';
+  private users: User[] = [];
+  private user: User;
+
+  constructor(private http: HttpClient,
+    private toastr: ToastrService,
+    private observableSrv: ObservableService,
+    private message: NzMessageService) { }
+
+  GetAll = async () => {
+    const result = await this.observableSrv.getAll(this.schemaName);
+
+    if (result && result.EC === 0) {
+      this.users = result.data;
+      this.usersEmit.emit(this.users);
+      return result.data;
+    }
+    return [];
+  }
+
+  updateUser = async (data: any) => {
+    const result = await this.observableSrv.update(this.schemaName, data);
+
+    if (result && result.EC === 0 && result.data.modifiedCount > 0) {
+      this.message.success('Cập nhật thành công');
+      this.GetAll(); // BUG ERROR
+      return true;
+    } else {
+      this.message.error('Tài khoản đã tồn tại');
+      return false;
+    }
+  }
+
+  deleteUser = async (user: User) => {
+    const _id = user._id;
+    const result = await this.observableSrv.delete(this.schemaName, _id!);
+
+    if (result && result.EC === 0 && result.data.modifiedCount > 0) {
+      const findIndex = this.users.findIndex(item => item._id === user._id);
+
+      if (findIndex !== -1) {
+        this.users.splice(findIndex, 1);
+        this.message.success('Xóa thành công');
+      }
+    } else {
+      this.message.error('Xóa thất bại');
+    }
+
+  }
+
+  GetLocalUser() {
+    let localUser = localStorage.getItem('user') != null ? localStorage.getItem('user') : undefined;
+
+    if (localUser) {
+      this.user = JSON.parse(localUser);
+      this.userEmit.emit(this.user);
+      return this.user;
+    }
+    return null;
+  }
+}
